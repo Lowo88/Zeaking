@@ -1,11 +1,11 @@
-//! Live probe: GetLightdInfo + GetLatestBlock + GetLatestTreeState against a running engine.
+//! Live probe: GetLightdInfo + GetLatestBlock + GetLatestTreeState against a running Zeaking.
 //!
 //! ```text
-//! cargo run -p nozy-sync-engine --example live_smoke_probe
+//! cargo run --example live_smoke_probe
 //! ```
 
-use nozy_sync_engine::proto::compact_tx_streamer_client::CompactTxStreamerClient;
-use nozy_sync_engine::proto::{ChainSpec, Empty};
+use zeaking::proto::compact_tx_streamer_client::CompactTxStreamerClient;
+use zeaking::proto::{ChainSpec, Empty};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {

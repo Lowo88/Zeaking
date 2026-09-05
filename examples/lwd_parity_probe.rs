@@ -1,19 +1,19 @@
-//! Spot-check compact blocks against a reference CompactTxStreamer (stock lightwalletd).
+//! Spot-check Zeaking compact blocks against a reference CompactTxStreamer.
 //!
 //! Encode path (Zebrad RPC): `ZEBRA_RPC_URL` set → parse `getblock` and compare to LWD.
-//! Serve path: `NOZY_PARITY_ENGINE_GRPC` set → GetBlock from Nozy Sync Engine vs LWD.
+//! Serve path: `ZEAKING_PARITY_ENGINE_GRPC` set → GetBlock from this process vs LWD.
 //!
 //! ```text
-//! set NOZY_PARITY_LWD_GRPC=https://zec.rocks:443
-//! cargo run -p nozy-sync-engine --example lwd_parity_probe
+//! set ZEAKING_PARITY_LWD_GRPC=https://zec.rocks:443
+//! cargo run --example lwd_parity_probe
 //! ```
 
-use nozy_sync_engine::compact::raw_block_to_compact;
-use nozy_sync_engine::parity::compare_compact;
-use nozy_sync_engine::proto::compact_tx_streamer_client::CompactTxStreamerClient;
-use nozy_sync_engine::proto::{BlockId, ChainSpec, CompactBlock, Empty};
-use nozy_sync_engine::rpc::RpcClient;
-use nozy_sync_engine::tree_sizes::{
+use zeaking::compact::raw_block_to_compact;
+use zeaking::parity::compare_compact;
+use zeaking::proto::compact_tx_streamer_client::CompactTxStreamerClient;
+use zeaking::proto::{BlockId, ChainSpec, CompactBlock, Empty};
+use zeaking::rpc::RpcClient;
+use zeaking::tree_sizes::{
     tree_sizes_from_getblock_json, tree_sizes_from_zebra_json, TreeSizes,
 };
 
@@ -62,8 +62,8 @@ async fn encode_from_rpc(
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let lwd = env_url("NOZY_PARITY_LWD_GRPC", "https://zec.rocks:443");
-    let engine = std::env::var("NOZY_PARITY_ENGINE_GRPC")
+    let lwd = env_url("ZEAKING_PARITY_LWD_GRPC", "https://zec.rocks:443");
+    let engine = std::env::var("ZEAKING_PARITY_ENGINE_GRPC")
         .ok()
         .map(|s| s.trim().to_string())
         .filter(|s| !s.is_empty());
@@ -71,7 +71,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .ok()
         .map(|s| s.trim().to_string())
         .filter(|s| !s.is_empty());
-    let n: u64 = std::env::var("NOZY_PARITY_BLOCKS")
+    let n: u64 = std::env::var("ZEAKING_PARITY_BLOCKS")
         .ok()
         .and_then(|s| s.parse().ok())
         .unwrap_or(5);
@@ -160,7 +160,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if rpc.is_none() && engine.is_none() {
         eprintln!(
-            "set ZEBRA_RPC_URL and/or NOZY_PARITY_ENGINE_GRPC to compare against the reference LWD"
+            "set ZEBRA_RPC_URL and/or ZEAKING_PARITY_ENGINE_GRPC to compare against the reference LWD"
         );
         std::process::exit(2);
     }
