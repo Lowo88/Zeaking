@@ -1,4 +1,4 @@
-// Vendored from Zcash lightwalletd protocol (MIT). See compact_formats.proto.
+// CompactTxStreamer RPC service (GetBlock, GetBlockRange, treestate, submit).
 syntax = "proto3";
 package cash.z.wallet.sdk.rpc;
 option go_package = "lightwalletd/walletrpc";
