@@ -1,15 +1,13 @@
-# Start Nozy Sync Engine (Windows)
-# Drop-in CompactTxStreamer for Nozy / Zeaking (`LIGHTWALLETD_GRPC`).
-#
+# Start the Zeaking indexer (Windows).
 # Usage:
-#   .\scripts\start-nozy-sync-engine.ps1
-#   .\scripts\start-nozy-sync-engine.ps1 -Bind 127.0.0.1:9067 -RpcUrl http://127.0.0.1:8232
-#   .\scripts\start-nozy-sync-engine.ps1 -Release
+#   .\scripts\start-zeaking.ps1
+#   .\scripts\start-zeaking.ps1 -Bind 127.0.0.1:9067 -RpcUrl http://127.0.0.1:8232
+#   .\scripts\start-zeaking.ps1 -Release
 
 param(
     [string]$RpcUrl = $(if ($env:ZEBRA_RPC_URL) { $env:ZEBRA_RPC_URL } else { "http://127.0.0.1:8232" }),
-    [string]$Bind = $(if ($env:NOZY_SYNC_ENGINE_BIND) { $env:NOZY_SYNC_ENGINE_BIND } else { "127.0.0.1:9067" }),
-    [string]$DbPath = $(if ($env:NOZY_SYNC_ENGINE_DB) { $env:NOZY_SYNC_ENGINE_DB } else { "nozy_sync_engine_compact.sqlite" }),
+    [string]$Bind = $(if ($env:ZEAKING_BIND) { $env:ZEAKING_BIND } else { "127.0.0.1:9067" }),
+    [string]$DbPath = $(if ($env:ZEAKING_DB) { $env:ZEAKING_DB } else { "zeaking_compact.sqlite" }),
     [switch]$Release
 )
 
@@ -24,7 +22,7 @@ if ($Bind -notmatch '^https?://') {
     $env:LIGHTWALLETD_GRPC = $Bind
 }
 
-Write-Host "Nozy Sync Engine"
+Write-Host "Zeaking"
 Write-Host "  RPC:  $RpcUrl"
 Write-Host "  Bind: $Bind  (set LIGHTWALLETD_GRPC=$($env:LIGHTWALLETD_GRPC))"
 Write-Host "  DB:   $DbPath"
