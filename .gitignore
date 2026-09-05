@@ -1,3 +1,4 @@
+# Local build output and compact-block SQLite
 /target
 **/*.sqlite
 **/*.sqlite-wal
