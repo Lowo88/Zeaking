@@ -1,4 +1,4 @@
-# Zeaking
+# Zeaking - Nozy sync engine
 
 Zeaking is NozyWallet’s **compact-block indexer**. Operators run it next to **Zebrad** or **Zakura**. It ingests JSON-RPC, keeps a local compact SQLite cache, and serves the lightwalletd **CompactTxStreamer** API so Nozy can sync shielded chain data on `:9067`.
 
