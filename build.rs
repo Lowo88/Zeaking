@@ -12,5 +12,5 @@ fn main() {
             &[proto_dir.join("service.proto")],
             std::slice::from_ref(&proto_dir),
         )
-        .expect("compile lightwalletd protos for nozy-sync-engine");
+        .expect("compile CompactTxStreamer protos");
 }
