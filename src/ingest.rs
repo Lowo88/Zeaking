@@ -26,7 +26,7 @@ pub async fn bootstrap(
     let node_kind = detect_node_kind(&node.subversion);
     if !expected_network.is_empty() && !node.chain.eq_ignore_ascii_case(expected_network) {
         return Err(crate::error::IndexerError::Config(format!(
-            "node chain '{}' does not match NOZY_SYNC_ENGINE_NETWORK '{}'",
+            "node chain '{}' does not match ZEAKING_NETWORK '{}'",
             node.chain, expected_network
         )));
     }

@@ -1,3 +1,5 @@
+//! Recoverable errors from config, node RPC, SQLite, and compact encode/decode.
+
 use thiserror::Error;
 
 pub type IndexerResult<T> = Result<T, IndexerError>;

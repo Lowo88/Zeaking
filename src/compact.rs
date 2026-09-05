@@ -1,7 +1,6 @@
 //! Raw Zcash block → lightwalletd `CompactBlock` (Sapling / Orchard / Ironwood).
 //!
-//! Approach mirrors ecosystem lightwalletd-rs: parse header + txs with librustzcash,
-//! keep only shielded fields wallets need for trial decrypt / witnesses.
+//! Parse header + txs with librustzcash; keep shielded fields for trial decrypt / witnesses.
 
 use std::io::{self, Cursor, Read};
 

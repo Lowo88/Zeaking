@@ -9,8 +9,8 @@ use crate::error::{IndexerError, IndexerResult};
 
 #[derive(Debug, Clone, Parser)]
 #[command(
-    name = "nozy-sync-engine",
-    about = "Nozy Sync Engine — Zebra/Zakura → CompactTxStreamer for Zeaking (issue #274)"
+    name = "zeaking",
+    about = "Zeaking — compact-block indexer (Zebra/Zakura JSON-RPC → CompactTxStreamer)"
 )]
 pub struct IndexerConfig {
     /// Zebra-family JSON-RPC URL (Zebrad or Zakura).
@@ -18,35 +18,35 @@ pub struct IndexerConfig {
     pub rpc_url: String,
 
     /// Alias for rpc_url (optional override).
-    #[arg(long, env = "NOZY_SYNC_ENGINE_RPC_URL")]
+    #[arg(long, env = "ZEAKING_RPC_URL")]
     pub indexer_rpc_url: Option<String>,
 
     /// gRPC listen address for CompactTxStreamer.
-    #[arg(long, env = "NOZY_SYNC_ENGINE_BIND", default_value = "127.0.0.1:9067")]
+    #[arg(long, env = "ZEAKING_BIND", default_value = "127.0.0.1:9067")]
     pub bind: SocketAddr,
 
     /// SQLite path for compact blocks.
     #[arg(
         long,
-        env = "NOZY_SYNC_ENGINE_DB",
-        default_value = "nozy_sync_engine_compact.sqlite"
+        env = "ZEAKING_DB",
+        default_value = "zeaking_compact.sqlite"
     )]
     pub db_path: PathBuf,
 
     /// Expected chain name (`main`, `test`, `regtest`). Empty = accept whatever the node reports.
-    #[arg(long, env = "NOZY_SYNC_ENGINE_NETWORK", default_value = "")]
+    #[arg(long, env = "ZEAKING_NETWORK", default_value = "")]
     pub network: String,
 
     /// Ingest poll interval in milliseconds.
-    #[arg(long, env = "NOZY_SYNC_ENGINE_POLL_MS", default_value_t = 2_000)]
+    #[arg(long, env = "ZEAKING_POLL_MS", default_value_t = 2_000)]
     pub poll_ms: u64,
 
     /// Start ingest from this height when the store is empty.
-    #[arg(long, env = "NOZY_SYNC_ENGINE_START_HEIGHT", default_value_t = 0)]
+    #[arg(long, env = "ZEAKING_START_HEIGHT", default_value_t = 0)]
     pub start_height: u64,
 
     /// When the store is empty, backfill at most this many blocks from tip.
-    #[arg(long, env = "NOZY_SYNC_ENGINE_BACKFILL", default_value_t = 500)]
+    #[arg(long, env = "ZEAKING_BACKFILL", default_value_t = 500)]
     pub backfill: u64,
 
     /// Log filter (RUST_LOG override).
@@ -66,7 +66,7 @@ impl IndexerConfig {
         let url = self.effective_rpc_url().trim();
         if url.is_empty() {
             return Err(IndexerError::Config(
-                "ZEBRA_RPC_URL / NOZY_SYNC_ENGINE_RPC_URL is empty".into(),
+                "ZEBRA_RPC_URL / ZEAKING_RPC_URL is empty".into(),
             ));
         }
         if self.poll_ms == 0 {

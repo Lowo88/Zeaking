@@ -35,7 +35,7 @@ impl ServeState {
 
 fn unimplemented(method: &str) -> Status {
     Status::unimplemented(format!(
-        "Nozy Sync Engine does not implement {method} (see issue #274)"
+        "Zeaking does not implement {method}"
     ))
 }
 
@@ -49,7 +49,7 @@ impl CompactTxStreamer for ServeState {
             .store
             .max_height()
             .map_err(|e| Status::internal(e.to_string()))?
-            .ok_or_else(|| Status::unavailable("Nozy Sync Engine has no compact blocks yet"))?;
+            .ok_or_else(|| Status::unavailable("Zeaking has no compact blocks yet"))?;
         let hash = self
             .store
             .get_block_hash(height)

@@ -1,6 +1,4 @@
-//! `nozy-sync-engine` — Nozy Sync Engine binary (Zebra/Zakura → CompactTxStreamer).
-//!
-//! Issue: https://github.com/LEONINE-DAO/Nozy-wallet/issues/274
+//! `zeaking` process: load config, ingest compact blocks, listen for CompactTxStreamer.
 
 use std::sync::Arc;
 
@@ -8,11 +6,11 @@ use clap::Parser;
 use tokio::sync::RwLock;
 use tracing::info;
 
-use nozy_sync_engine::config::IndexerConfig;
-use nozy_sync_engine::ingest::{bootstrap, run_ingest_loop};
-use nozy_sync_engine::rpc::RpcClient;
-use nozy_sync_engine::serve::ServeState;
-use nozy_sync_engine::store::IndexerStore;
+use zeaking::config::IndexerConfig;
+use zeaking::ingest::{bootstrap, run_ingest_loop};
+use zeaking::rpc::RpcClient;
+use zeaking::serve::ServeState;
+use zeaking::store::IndexerStore;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -27,7 +25,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .init();
 
     let rpc_url = cfg.effective_rpc_url().to_string();
-    info!(%rpc_url, bind = %cfg.bind, db = %cfg.db_path.display(), "starting Nozy Sync Engine");
+    info!(%rpc_url, bind = %cfg.bind, db = %cfg.db_path.display(), "starting Zeaking");
 
     let rpc = RpcClient::new(&rpc_url)?;
     let store = Arc::new(IndexerStore::open(&cfg.db_path)?);
@@ -40,7 +38,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         rpc: rpc_serve,
         node: Arc::clone(&node),
         node_kind: handle.node_kind,
-        vendor: "NozyWallet/nozy-sync-engine".into(),
+        vendor: "Zeaking".into(),
         version: env!("CARGO_PKG_VERSION").into(),
     };
 

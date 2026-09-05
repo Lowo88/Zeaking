@@ -1,6 +1,6 @@
-//! Nozy Sync Engine — Zebra-family ingest + LWD-compatible CompactTxStreamer for Zeaking.
+//! Zeaking library: ingest, compact encode, SQLite store, and CompactTxStreamer types.
 //!
-//! Tracking: https://github.com/LEONINE-DAO/Nozy-wallet/issues/274
+//! The `zeaking` binary in `src/main.rs` wires these modules into a process.
 
 pub mod compact;
 pub mod config;
